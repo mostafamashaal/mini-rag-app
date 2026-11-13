@@ -85,7 +85,7 @@ class OpenAIProvider(LLMInterface):
             input = text,
         )
 
-        if not response or response.data or len(response.data) == 0 or response.data[0].embedding:
+        if not response or not response.data or len(response.data) == 0 or not response.data[0].embedding:
             self.logger.error("Error while embeddig text with OpenAI")
             return None
 
