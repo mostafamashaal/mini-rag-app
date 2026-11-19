@@ -4,7 +4,6 @@ class Settings(BaseSettings):
 
     APP_NAME: str
     APP_VERSION: str
-    OPENAI_API_KEY: str
 
     FILE_ALLOWED_TYPES: list[str]
     FILE_MAX_SIZE: int
@@ -28,8 +27,8 @@ class Settings(BaseSettings):
     DEFAULT_GENERATION_TEMPERATURE: float = None
 
     VECTOR_DB_BACKEND: str
-    VECTORE_DB_PATH: str
-    VECTORE_DB_DISTANCE_METHOD: str = None
+    VECTOR_DB_PATH: str
+    VECTOR_DB_DISTANCE_METHOD: str = None
     
 
     class Config:
