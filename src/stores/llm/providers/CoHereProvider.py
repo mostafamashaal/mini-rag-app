@@ -31,12 +31,14 @@ class CohereProvider(LLMInterface):
 
     def set_embedding_model(self, model_id: str, embedding_size: int):
         self.embedding_model_id = model_id
-        self.embedding_model_id = embedding_size
+        self.embedding_size = embedding_size
 
     def process_text(self, text: str):
         return text[:self.default_input_max_characters].strip()
     
-    def generate_text(self, prompt: str, chat_history: list=[], max_output_tokens: int=None, temperature: float = None):
+    def generate_text(self, prompt: str, chat_history: list=None, max_output_tokens: int=None, temperature: float = None):
+        if chat_history is None:
+            chat_history = []
 
         if not self.client:
             self.logger.error("CoHere client was not set")
@@ -47,8 +49,11 @@ class CohereProvider(LLMInterface):
             return None
 
         max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
-        temperature = temperature if temperature else self.default_generation_temperature
-
+        temperature = (
+            temperature
+            if temperature is not None
+            else self.default_generation_temperature
+        )
         response = self.client.chat(
             model = self.generation_model_id,
             chat_history = chat_history,
@@ -74,15 +79,16 @@ class CohereProvider(LLMInterface):
             return None
 
         input_type = CoHereEnums.DOCUMENT.value
+
         if document_type == DocumentTypeEnums.QUERY.value:
             input_type = CoHereEnums.QUERY.value
 
-            response = self.client.embed(
-                model = self.embedding_model_id,
-                texts = [self.process_text(text)],
-                input_type = input_type,
-                embedding_types = ['float']
-            )
+        response = self.client.embed(
+            model = self.embedding_model_id,
+            texts = [self.process_text(text)],
+            input_type = input_type,
+            embedding_types = ['float']
+        )
 
         if not response or not response.embeddings or not response.embeddings.float[0]:
             self.logger.error("Error while embeddig text with CoHere")
