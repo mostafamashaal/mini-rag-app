@@ -63,14 +63,14 @@ async def index_project(request: Request, project_id: str, push_request: PushReq
         chunks_ids = list(range(idx, idx + len(page_chunks)))
         idx += len(page_chunks)
 
-        is_iserted = nlp_controller.index_into_vector_db(
+        is_inserted = nlp_controller.index_into_vector_db(
             project=project,
             chunks=page_chunks,
             do_reset=push_request.do_reset,
             chunks_ids=chunks_ids,
         )
 
-        if not is_iserted:
+        if not is_inserted:
             return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
