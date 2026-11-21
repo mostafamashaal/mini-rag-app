@@ -126,7 +126,7 @@ async def process_endpoint(project_id: int, process_request: ProcessRequest, req
         )
 
         project_files_ids = {
-            record.asset_project_id: record.asset_name
+            record.asset_id: record.asset_name
             for record in project_files
         }
 
