@@ -8,10 +8,10 @@ This is a minimal implementation of the RAG model for question answering.
 
 #### Install Dependenncies
 
-'''bash
+```bash
 sudo apt update
 sudo apt install libpq-dev gcc python3-dev
-'''
+```
 
 #### Install Python using MiniConda
 
@@ -41,6 +41,12 @@ export PS1="\[\033[01;32m\]\u@\h:\w\n\[\033[00m\]\$ "
 
 ```bash
 $ pip install -r requirements.txt
+```
+
+#### for windows
+
+```cmd
+conda install -c conda-forge psycopg2=2.9.13
 ```
 
 ### Setup the environment variables
