@@ -1,0 +1,33 @@
+name: Deploy Main Branch to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Deploy
+        run: |
+          cd /home/github_user/workspace/mini-rag-app.org
+          git checkout main
+          git pull
+          sudo systemctl restart minirag.service
+          echo "Waiting...."
+          sleep 20
+          for i in {1..6}; do
+            if ss -tuln | grep -qE ':80\s'; then
+              echo "Port 80 is now active."
+              break
+            else
+              echo "Port 80 not ready yet. Retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
+          if ! ss -tuln | grep -qE ':80\s'; then
+            echo "Service failed to start on port 80"
+            exit 1
+          fi
