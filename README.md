@@ -6,18 +6,21 @@ This is a minimal implementation of the RAG model for question answering.
 
 - Python 3.8 or later
 
-### Install Python using MiniConda
-
-1) Download and install MiniConda from [here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
-
-2) Create a new environment using the following command:
+#### Install Dependenncies
 
 ```bash
-$ conda create -n mini-rag python=3.15
+sudo apt update
+sudo apt install libpq-dev gcc python3-dev
 ```
 
-3) Activate the environment:
+#### Install Python using MiniConda
 
+1) Download and install MiniConda from [here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
+2) Create a new environment using the following command:
+```bash
+$ conda create -n mini-rag python=3.8
+```
+3) Activate the environment:
 ```bash
 $ conda activate mini-rag
 ```
@@ -28,12 +31,22 @@ $ conda activate mini-rag
 export PS1="\[\033[01;32m\]\u@\h:\w\n\[\033[00m\]\$ "
 ```
 
+### (Optional) Run Ollama Local LLM Server using Colab + Ngrok
+
+- Check the [notebook](https://colab.research.google.com/drive/1KNi3-9KtP-k-93T3wRcmRe37mRmGhL9p?usp=sharing) + [Video](https://youtu.be/-epZ1hAAtrs)
+
 ## Installation
 
 ### Install the required packages
 
 ```bash
 $ pip install -r requirements.txt
+```
+
+#### for windows
+
+```cmd
+conda install -c conda-forge psycopg2=2.9.13
 ```
 
 ### Setup the environment variables
@@ -43,3 +56,27 @@ $ cp .env.example .env
 ```
 
 Set your environment variables in the `.env` file. Like `OPENAI_API_KEY` value.
+
+## Run Docker Compose Services
+
+```bash
+$ cd docker
+$ cp .env.example .env
+```
+
+- update `.env` with your credentials
+
+```bash
+$ cd docker
+$ sudo docker compose up -d
+```
+
+## Run the FastAPI server
+
+```bash
+$ uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```
+
+## POSTMAN Collection
+
+Download the POSTMAN collection from [/assets/mini-rag-app.postman_collection.json](/assets/mini-rag-app.postman_collection.json)
